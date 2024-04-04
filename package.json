@@ -1,0 +1,22 @@
+{
+  "name": "@lst97/common-response-structure",
+  "version": "0.1.0-alpha.1",
+  "description": "Response structure used in @lst97/common-response",
+  "main": "lib/cjs/index.js",
+  "types": "lib/esm/index.d.ts",
+  "type": "commonjs",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "rm -rf lib/ && npx prettier --write src/ && npm run build:cjs && npm run build:esm",
+    "build:cjs": "tsc --module commonjs --outDir lib/cjs",
+    "build:esm": "tsc --module esnext --outDir lib/esm",
+    "test": "jest",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [],
+  "author": "lst97",
+  "license": "ISC",
+  "devDependencies": {}
+}
