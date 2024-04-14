@@ -108,6 +108,7 @@ const resultSchema = Joi.object({
 });
 
 /**
+ * @example
     A class that defines a set of Joi schemas for validating response objects.
     ## Example Usage
     ```typescript

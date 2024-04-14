@@ -3,7 +3,7 @@
  * @property {string} code The code of the warning, should be the format like `EXAMPLE_CODE`. Check the schemas for details.
  * @property {string} message The human readable message of the warning.
  */
-interface IMessage {
+export interface IMessage {
   code: string;
   message: string;
 }
@@ -94,7 +94,7 @@ export class Result<T> implements IResult<T> {
   }
 }
 
-type StatusTypes = "success" | "error" | "partial";
+export type ResponseStatusTypes = "success" | "error" | "partial";
 
 /**
  * Interface for the standardized backend response structure.
@@ -153,8 +153,8 @@ type StatusTypes = "success" | "error" | "partial";
       version: "1.0.0",
     };
  */
-interface IBackendStandardResponseInput<T> {
-  status: StatusTypes;
+export interface IBackendStandardResponseInput<T> {
+  status: ResponseStatusTypes;
   message: IMessage;
   data?: T;
   requestId: string;
@@ -170,7 +170,7 @@ interface IBackendStandardResponseInput<T> {
 export class BackendStandardResponse<T>
   implements IBackendStandardResponseInput<T>
 {
-  status: StatusTypes;
+  status: ResponseStatusTypes;
   message: IMessage;
   data?: T;
   requestId: string;
