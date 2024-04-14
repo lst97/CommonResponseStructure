@@ -20,8 +20,8 @@ describe("ResponseSchemas", () => {
 
   beforeEach(() => {
     Config.instance.idIdentifier = "test";
-    Config.instance.requestIdTypeName = "requestId";
-    Config.instance.traceIdTypeName = "traceId";
+    Config.instance.requestIdName = "requestId";
+    Config.instance.traceIdName = "traceId";
 
     validResponseStructure = {
       status: "success",

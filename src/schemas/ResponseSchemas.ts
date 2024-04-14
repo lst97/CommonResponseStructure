@@ -74,12 +74,12 @@ const idSchema = (idType: string, errorMessage: string) =>
   });
 
 const requestIdSchema = idSchema(
-  Config.instance.requestIdTypeName,
+  Config.instance.requestIdName,
   ErrorMessages.invalidRequestId,
 );
 
 const traceIdSchema = idSchema(
-  Config.instance.traceIdTypeName,
+  Config.instance.traceIdName,
   ErrorMessages.invalidTraceId,
 );
 

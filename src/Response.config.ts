@@ -1,8 +1,18 @@
+/**
+ * Configuration class for managing application settings using a singleton pattern.
+ *
+ * This class provides access to configuration properties such as ID identifier, request ID name, and trace ID name.
+ *
+ * Then the `ResponseSchemas` class will use these properties to generate the appropriate schemas for request and trace IDs.
+ *
+ * @example
+ * "{_idIdentifier}.{_requestIdName}.22680f70-2f03-46c7-b230-14f4babbfbda"
+ */
 export class Config {
   private static _instance: Config;
   private _idIdentifier: string = "unknown";
-  private _requestIdTypeName: string = "requestId";
-  private _traceIdTypeName: string = "traceId";
+  private _requestIdName: string = "requestId";
+  private _traceIdName: string = "traceId";
 
   private constructor() {}
 
@@ -21,19 +31,19 @@ export class Config {
     return this._idIdentifier;
   }
 
-  public set requestIdTypeName(requestIdTypeName: string) {
-    this._requestIdTypeName = requestIdTypeName;
+  public set requestIdName(requestIdName: string) {
+    this._requestIdName = requestIdName;
   }
 
-  public get requestIdTypeName(): string {
-    return this._requestIdTypeName;
+  public get requestIdName(): string {
+    return this._requestIdName;
   }
 
-  public set traceIdTypeName(traceIdTypeName: string) {
-    this._traceIdTypeName = traceIdTypeName;
+  public set traceIdName(traceIdName: string) {
+    this._traceIdName = traceIdName;
   }
 
-  public get traceIdTypeName(): string {
-    return this._traceIdTypeName;
+  public get traceIdName(): string {
+    return this._traceIdName;
   }
 }
