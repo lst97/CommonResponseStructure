@@ -54,7 +54,7 @@ describe("ResponseSchemas", () => {
   it("should validate a response object with all required fields and valid data types", () => {
     const response = validResponseStructure;
 
-    const result = ResponseSchemas.joiSchema.validate(response);
+    const result = ResponseSchemas.joiSchema().validate(response);
     expect(result.error).toBeUndefined();
   });
 
@@ -62,7 +62,7 @@ describe("ResponseSchemas", () => {
     const response = validResponseStructure;
     response.status = undefined;
 
-    const result = ResponseSchemas.joiSchema.validate(response);
+    const result = ResponseSchemas.joiSchema().validate(response);
     expect(result.error).toBeDefined();
   });
 
@@ -70,7 +70,7 @@ describe("ResponseSchemas", () => {
     const response = validResponseStructure;
     response.status = "partial";
 
-    const result = ResponseSchemas.joiSchema.validate(response);
+    const result = ResponseSchemas.joiSchema().validate(response);
     expect(result.error).toBeDefined();
   });
 
@@ -80,7 +80,7 @@ describe("ResponseSchemas", () => {
     response.traceId = "test.traceId.22680f70-2f03-46c7-b230-14f4babbfbda";
 
     // missing result
-    let result = ResponseSchemas.joiSchema.validate(response);
+    let result = ResponseSchemas.joiSchema().validate(response);
     expect(result.error).toBeDefined();
 
     response.result = [
@@ -101,7 +101,7 @@ describe("ResponseSchemas", () => {
       },
     ];
 
-    result = ResponseSchemas.joiSchema.validate(response);
+    result = ResponseSchemas.joiSchema().validate(response);
     expect(result.error).toBeUndefined();
   });
 
@@ -110,12 +110,12 @@ describe("ResponseSchemas", () => {
     response.status = "error";
 
     // missing traceId
-    let result = ResponseSchemas.joiSchema.validate(response);
+    let result = ResponseSchemas.joiSchema().validate(response);
     expect(result.error).toBeDefined();
 
     response.traceId = "test.traceId.22680f70-2f03-46c7-b230-14f4babbfbda";
 
-    result = ResponseSchemas.joiSchema.validate(response);
+    result = ResponseSchemas.joiSchema().validate(response);
     expect(result.error).toBeUndefined();
   });
 
@@ -125,15 +125,15 @@ describe("ResponseSchemas", () => {
     response.status = "error";
 
     response.traceId = "invalid.traceId.22680f70-2f03-46c7-b230-14f4b*bbfbda";
-    let result = ResponseSchemas.joiSchema.validate(response);
+    let result = ResponseSchemas.joiSchema().validate(response);
     expect(result.error).toBeDefined();
 
     response.traceId = "invalid.traceId.22680f70-2f03-46c7-b230-14f4bbBfbda";
-    result = ResponseSchemas.joiSchema.validate(response);
+    result = ResponseSchemas.joiSchema().validate(response);
     expect(result.error).toBeDefined();
 
     response.traceId = "invalid.traceId";
-    result = ResponseSchemas.joiSchema.validate(response);
+    result = ResponseSchemas.joiSchema().validate(response);
     expect(result.error).toBeDefined();
   });
 
@@ -141,7 +141,7 @@ describe("ResponseSchemas", () => {
     let response = validResponseStructure as any;
     response.test = "This is a additional test field";
 
-    const result = ResponseSchemas.joiSchema.validate(response);
+    const result = ResponseSchemas.joiSchema().validate(response);
 
     expect(result.error).toBeDefined();
     expect(result.error!.details[0].message).toContain("is not allowed");
@@ -151,7 +151,7 @@ describe("ResponseSchemas", () => {
     let response = validResponseStructure;
     response.pagination = "invalidate pagination";
 
-    const result = ResponseSchemas.joiSchema.validate(response);
+    const result = ResponseSchemas.joiSchema().validate(response);
 
     expect(result.error).toBeDefined();
     expect(result.error!.details[0].message).toContain("pagination");
@@ -161,7 +161,7 @@ describe("ResponseSchemas", () => {
     const response = validResponseStructure;
     response.warnings = "invalid warnings";
 
-    const result = ResponseSchemas.joiSchema.validate(response);
+    const result = ResponseSchemas.joiSchema().validate(response);
 
     expect(result.error).toBeDefined();
     expect(result.error!.details[0].message).toContain("warnings");

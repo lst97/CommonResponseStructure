@@ -73,16 +73,6 @@ const idSchema = (idType: string, errorMessage: string) =>
     return value;
   });
 
-const requestIdSchema = idSchema(
-  Config.instance.requestIdName,
-  ErrorMessages.invalidRequestId,
-);
-
-const traceIdSchema = idSchema(
-  Config.instance.traceIdName,
-  ErrorMessages.invalidTraceId,
-);
-
 const versionSchema = Joi.string().custom((value, helpers) => {
   if (!validateVersion(value)) {
     return helpers.message({ custom: ErrorMessages.invalidVersion });
@@ -141,39 +131,53 @@ const resultSchema = Joi.object({
     - None 
 */
 export class ResponseSchemas {
-  public static readonly joiSchema = Joi.object({
-    status: statusSchema.required(),
-    message: messageSchema.required(),
-    data: Joi.any(),
-    requestId: requestIdSchema.required(),
-    traceId: traceIdSchema.optional(),
-    timestamp: Joi.string().isoDate().required(),
-    warnings: messageSchema.optional(),
-    version: versionSchema.required(), // Different versions may have different schemas
-    pagination: paginationSchema.optional(), // TODO
-    metadata: Joi.object().optional(), // TODO
-    result: Joi.array().optional(), // TODO
-  })
-    .when(".status", {
-      is: "partial",
-      then: Joi.object({
-        result: Joi.array().items(resultSchema).required(),
-        traceId: traceIdSchema.required(),
-      }),
+  public static joiSchema() {
+    return Joi.object({
+      status: statusSchema.required(),
+      message: messageSchema.required(),
+      data: Joi.any(),
+      requestId: idSchema(
+        Config.instance.requestIdName,
+        ErrorMessages.invalidRequestId,
+      ).required(),
+      traceId: idSchema(
+        Config.instance.traceIdName,
+        ErrorMessages.invalidRequestId,
+      ).optional(),
+      timestamp: Joi.string().isoDate().required(),
+      warnings: messageSchema.optional(),
+      version: versionSchema.required(), // Different versions may have different schemas
+      pagination: paginationSchema.optional(), // TODO
+      metadata: Joi.object().optional(), // TODO
+      result: Joi.array().optional(), // TODO
     })
-    .when(".status", {
-      is: "error",
-      then: Joi.object({
-        traceId: traceIdSchema.required(),
-      }),
-    })
-    .when(".status", {
-      is: Joi.valid("success"),
-      then: Joi.object({
-        traceId: Joi.forbidden(), // traceId is not allowed
-      }),
-    })
-    .unknown(false); // Disallow unknown fields
+      .when(".status", {
+        is: "partial",
+        then: Joi.object({
+          result: Joi.array().items(resultSchema).required(),
+          traceId: idSchema(
+            Config.instance.traceIdName,
+            ErrorMessages.invalidRequestId,
+          ).required(),
+        }),
+      })
+      .when(".status", {
+        is: "error",
+        then: Joi.object({
+          traceId: idSchema(
+            Config.instance.traceIdName,
+            ErrorMessages.invalidRequestId,
+          ).required(),
+        }),
+      })
+      .when(".status", {
+        is: Joi.valid("success"),
+        then: Joi.object({
+          traceId: Joi.forbidden(), // traceId is not allowed
+        }),
+      })
+      .unknown(false); // Disallow unknown fields
+  }
 
   // Other schemas framework
 }
