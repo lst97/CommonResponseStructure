@@ -153,7 +153,7 @@ export type ResponseStatusTypes = "success" | "error" | "partial";
       version: "1.0.0",
     };
  */
-export interface IBackendStandardResponseInput<T> {
+export interface IBackendStandardResponse<T> {
   status: ResponseStatusTypes;
   message: IMessage;
   data?: T;
@@ -167,9 +167,7 @@ export interface IBackendStandardResponseInput<T> {
   result?: Result<T>[];
 }
 
-export class BackendStandardResponse<T>
-  implements IBackendStandardResponseInput<T>
-{
+export class BackendStandardResponse<T> implements IBackendStandardResponse<T> {
   status: ResponseStatusTypes;
   message: IMessage;
   data?: T;
@@ -182,7 +180,7 @@ export class BackendStandardResponse<T>
   metadata?: Metadata;
   result?: Result<T>[]; // List of Result<T>
 
-  constructor(input: IBackendStandardResponseInput<T>) {
+  constructor(input: IBackendStandardResponse<T>) {
     this.status = input.status;
     this.message = input.message;
     this.data = input.data;

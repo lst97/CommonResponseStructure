@@ -75,12 +75,12 @@ const idSchema = (idType: string, errorMessage: string) =>
 
 const requestIdSchema = idSchema(
   Config.instance.requestIdTypeName,
-  ErrorMessages.invalidRequestId
+  ErrorMessages.invalidRequestId,
 );
 
 const traceIdSchema = idSchema(
   Config.instance.traceIdTypeName,
-  ErrorMessages.invalidTraceId
+  ErrorMessages.invalidTraceId,
 );
 
 const versionSchema = Joi.string().custom((value, helpers) => {
